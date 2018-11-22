@@ -1,18 +1,19 @@
-const pullRequestHandler = require('./lib/pull-request-handler')
-const pullRequestMergedHandler = require('./lib/pull-request-merged-handler')
-const pushHandler = require('./lib/push-handler')
-const issueRenameHandler = require('./lib/issue-rename-handler')
+require('dotenv').config()
+require('heapdump')
 
-module.exports = app => {
-  // PR handler (comments on pull requests)
-  app.on(['pull_request.opened', 'pull_request.synchronize'], pullRequestHandler)
+const { findPrivateKey } = require('probot/lib/private-key')
+const { createProbot } = require('probot')
 
-  // Merge handler (opens new issues)
-  app.on('pull_request.closed', pullRequestMergedHandler)
+const probot = createProbot({
+  id: process.env.APP_ID,
+  secret: process.env.WEBHOOK_SECRET,
+  cert: findPrivateKey(),
+  port: process.env.PORT || 3000,
+  webhookPath: '/',
+  webhookProxy: process.env.WEBHOOK_PROXY_URL
+})
 
-  // Push handler (opens new issues)
-  app.on('push', pushHandler)
+const appFn = require('./lib')
 
-  // Prevent tampering with the issue title
-  app.on('issues.edited', issueRenameHandler)
-}
+probot.load(appFn)
+probot.start()
