@@ -7,7 +7,7 @@
   "repository": "https://github.com/JasonEtco/todo.git",
   "scripts": {
     "dev": "nodemon",
-    "start": "probot run ./index.js",
+    "start": "node ./index.js",
     "test": "jest --coverage && standard",
     "test:update": "jest -u"
   },
@@ -39,6 +39,7 @@
     "chalk": "^2.3.1",
     "commander": "^2.14.1",
     "hbs": "^4.0.1",
+    "heapdump": "^0.3.12",
     "parse-diff": "^0.5.1",
     "probot": "^7.3.1"
   },
