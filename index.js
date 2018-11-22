@@ -9,7 +9,6 @@ const probot = createProbot({
   secret: process.env.WEBHOOK_SECRET,
   cert: findPrivateKey(),
   port: process.env.PORT || 3000,
-  webhookPath: '/',
   webhookProxy: process.env.WEBHOOK_PROXY_URL
 })
 
