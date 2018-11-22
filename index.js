@@ -14,5 +14,5 @@ const probot = createProbot({
 
 const appFn = require('./lib')
 
-probot.load(appFn)
+probot.setup([appFn])
 probot.start()
